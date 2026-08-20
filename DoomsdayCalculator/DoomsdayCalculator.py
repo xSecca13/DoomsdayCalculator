@@ -1,0 +1,117 @@
+from ast import While
+import time
+from time import sleep
+import os
+import sys
+
+print('Scrivi "exit" Per Uscire Dal Gioco')
+
+while True:
+         time.sleep(1)
+         print('-------------------------------------------')
+         print('|   Benvenuto al Gioco Della Apocalisse   |')
+         print('-------------------------------------------')
+
+         time.sleep(1)
+
+         Anno = (input('Inserisci l\'anno : '))
+         if Anno == "exit":
+             print('Alla Prossima!')
+             time.sleep(0.5)
+             sys.exit()
+         time.sleep(0.5)
+         Mese = input('Inserisci il mese : ')
+         if Mese == "exit":
+             print('Alla Prossima!')
+             time.sleep(0.5)
+             sys.exit()
+         time.sleep(0.5)
+         Giorno = (input('Inserisci il giorno : '))
+         if Giorno == "exit":
+             print('Alla Prossima')
+             time.sleep(0.5)
+             sys.exit()
+         time.sleep(0.5)
+
+         if not Anno.isdigit() or not Giorno.isdigit():
+             print("Errore: L'anno e il giorno devono essere numeri interi.")
+             continue
+
+         if int(Anno) < 1 or int(Giorno) < 1 or int(Giorno) > 31:
+             print("Errore: L'anno deve essere maggiore di 0 e il giorno deve essere compreso tra 1 e 31.")
+             continue
+
+         if Mese not in ["Gennaio", "Febbraio", "Marzo", "Aprile", "Maggio", "Giugno", "Luglio", "Agosto", "Settembre", "Ottobre", "Novembre", "Dicembre"]:
+             print("Errore: Il mese deve essere uno dei seguenti: Gennaio, Febbraio, Marzo, Aprile, Maggio, Giugno, Luglio, Agosto, Settembre, Ottobre, Novembre, Dicembre.")
+             continue
+
+         Bisestile = int(Anno) % 4 == 0 and int(Anno) % 100 == 0 and int(Anno) % 400 == 0
+         
+         if Mese == "Febbraio" and Bisestile == False and int(Giorno) > 28:
+             print("Errore: Febbraio ha al massimo 28 giorni.")
+             continue
+
+         if Mese == "Febbraio" and Bisestile == True and int(Giorno) > 29:
+             print("Errore: Febbraio ha al massimo 29 giorni.")
+             continue
+         
+         if Mese in ["Aprile", "Giugno", "Settembre", "Novembre"] and int(Giorno) > 30:
+             print(f"Errore: {Mese} ha al massimo 30 giorni.")
+             continue
+
+         if Mese in ["Gennaio", "Marzo", "Maggio", "Luglio", "Agosto", "Ottobre", "Dicembre"] and int(Giorno) > 31:
+             print(f"Errore: {Mese} ha al massimo 31 giorni.")
+             continue 
+
+         if int(Anno) > 9999:
+             print("Errore: L'anno deve essere minore o uguale a 9999.")
+             continue
+
+         #CENTURY ANCHOR
+
+         Secolo = int(Anno) // 100
+
+         if Secolo % 4 == 0:
+           SecoloAnchor = 2
+
+         elif Secolo % 4 == 1:
+             SecoloAnchor = 0
+
+         elif Secolo % 4 == 2:
+             SecoloAnchor = 5
+
+         elif Secolo % 4 == 3:
+             SecoloAnchor = 3
+
+         #YEAR SHIFT
+
+         YearShift = (int(Anno) % 100 + (int(Anno) % 100 // 4)) % 7
+
+         #MONTHS
+
+         MonthCode = {"Gennaio": 3, "Febbraio": 0, "Marzo": 0, "Aprile": 3, "Maggio": 5, "Giugno": 1, "Luglio": 3, "Agosto": 6, "Settembre": 2, "Ottobre": 4, "Novembre": 0, "Dicembre": 2}
+
+         #WEEKDAYS
+
+         Days = ["Domenica", "Lunedi", "Martedi", "Mercoledi", "Giovedi", "Venerdi", "Sabato"]
+
+         Domenica = 1
+         Lunedi = 2
+         Martedi = 4
+         Mercoledi = 5
+         Giovedi = 6
+         Venerdi = 7
+         Sabato = 8
+
+         #WEEKDAY CALCULATION
+
+         if Bisestile == True:
+            GiornoSettimana = (int(Giorno) + MonthCode[Mese] + YearShift + SecoloAnchor -1) % 7
+
+         if Bisestile == False:
+            GiornoSettimana = (int(Giorno) + MonthCode[Mese] + YearShift + SecoloAnchor) % 7
+
+         time.sleep(1)
+
+         print("Il giorno della settimana è: ", Days[GiornoSettimana])
+         time.sleep(3)
